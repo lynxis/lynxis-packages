@@ -1,0 +1,32 @@
+--- libmpdclient-2.3/src/idle.c.org	2010-10-03 04:01:43.511267217 +0200
++++ libmpdclient-2.3/src/idle.c	2010-10-03 04:02:30.675264665 +0200
+@@ -57,7 +57,8 @@ static const char *const idle_names[] =
+ const char *
+ mpd_idle_name(enum mpd_idle idle)
+ {
+-	for (unsigned i = 0; idle_names[i] != NULL; ++i)
++    unsigned i;
++	for (i = 0; idle_names[i] != NULL; ++i)
+ 		if (idle == (enum mpd_idle)(1 << i))
+ 			return idle_names[i];
+ 
+@@ -69,7 +70,8 @@ mpd_idle_name_parse(const char *name)
+ {
+ 	assert(name != NULL);
+ 
+-	for (unsigned i = 0; idle_names[i] != NULL; ++i)
++    unsigned i;
++	for (i = 0; idle_names[i] != NULL; ++i)
+ 		if (strcmp(name, idle_names[i]) == 0)
+ 			return 1 << i;
+ 
+@@ -149,7 +151,8 @@ mpd_send_idle_mask(struct mpd_connection
+ 	if (mpd_error_is_defined(&connection->error))
+ 		return false;
+ 
+-	for (unsigned i = 0; idle_names[i] != NULL; ++i) {
++    unsigned i;
++	for (i = 0; idle_names[i] != NULL; ++i) {
+ 		if (mask & (1 << i)) {
+ 			mask &= ~(1 << i);
+ 			strcat(buffer, " ");

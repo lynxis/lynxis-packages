@@ -1,0 +1,24 @@
+--- libmpdclient-2.3/src/tag.c.org	2010-10-03 04:21:05.507264181 +0200
++++ libmpdclient-2.3/src/tag.c	2010-10-03 04:21:12.255764182 +0200
+@@ -70,8 +70,9 @@ enum mpd_tag_type
+ mpd_tag_name_parse(const char *name)
+ {
+ 	assert(name != NULL);
+-
+-	for (unsigned i = 0; i < MPD_TAG_COUNT; ++i)
++    
++    unsigned i;
++	for (i = 0; i < MPD_TAG_COUNT; ++i)
+ 		if (strcmp(name, mpd_tag_type_names[i]) == 0)
+ 			return (enum mpd_tag_type)i;
+ 
+@@ -110,7 +111,8 @@ mpd_tag_name_iparse(const char *name)
+ {
+ 	assert(name != NULL);
+ 
+-	for (unsigned i = 0; i < MPD_TAG_COUNT; ++i)
++    unsigned i;
++	for (i = 0; i < MPD_TAG_COUNT; ++i)
+ 		if (ignore_case_string_equals(name, mpd_tag_type_names[i]))
+ 			return (enum mpd_tag_type)i;
+ 

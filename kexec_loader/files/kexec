@@ -1,0 +1,19 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+STOP=10
+
+stop() {
+    if [ -e /tmp/kexec_loaded ] ; then
+        PID=`ps aux | grep kexec_dualboot | grep -v grep | awk '{ print $3 }'`
+        if [ -n PID ] ; then
+            kill $PID
+        fi
+    fi
+}
+
+start() {
+    stop
+    /sbin/kexec_dualboot.sh &
+}
+

@@ -10,7 +10,7 @@ define Package/kexec_dualboot
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=Kexec script to boot a second image
-  DEPENDS:=@LINUX_2_6
+  DEPENDS:=+kexec-tools
   URL:=http://www.c-base.org
 endef
 

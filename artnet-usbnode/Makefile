@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=artnet-usbnode
 PKG_VERSION:=0.1
 PKG_RELEASE:=1
-PKG_REV:=02bc97b02e4b5b5fec3993d0926798fe94a49f4d
+PKG_REV:=110cfe95a65826b1f21b1814fd70a634c970abcb
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=git://dev.c-base.org/libart-dmxcontrol/usbnode.git
@@ -24,18 +24,12 @@ define Package/artnet-usbnode
 endef
 
 define Package/artnet-usbnode/description
-an artnet to dmx-gateway based on enttec usbdmx-device
-endef
-
-define Build/Compile
-	$(MAKE) -C $(PKG_BUILD_DIR) \
-		DESTDIR="$(PKG_INSTALL_DIR)" \
-		all install
+an artnet-to-dmx-gateway based on enttec usbdmx-device
 endef
 
 define Package/artnet-usbnode/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/artnet* $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/usbnode $(1)/usr/bin
 endef
 
 $(eval $(call BuildPackage,artnet-usbnode))

@@ -23,7 +23,7 @@ define Package/libartnet
   SECTION:=multimedia
   CATEGORY:=Multimedia
   TITLE:=lib Art-Net
-  URL:=http://lynxis.cre.c-base.org/
+  URL:=http://lynxis.crew.c-base.org/
 endef
 
 define Package/libartnet/description

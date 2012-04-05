@@ -6,10 +6,10 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=libartnet
 PKG_VERSION:=0.1
 PKG_RELEASE:=1
-PKG_REV:=d9a80190710603813c3aa0d296078e4279b43a3f
+PKG_REV:=c54003450c9923421e2700e25ead6ffc37a8d4f1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=http://www.nomis52.net/git/libartnet
+PKG_SOURCE_URL:=git://dev.c-base.org/libart-dmxcontrol/libartnet.git
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=$(PKG_REV)
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)

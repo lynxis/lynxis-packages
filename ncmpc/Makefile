@@ -4,12 +4,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ncmpc
-PKG_VERSION:=0.11.1
+PKG_VERSION:=0.11.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=http://hem.bredband.net/kaw/ncmpc/files/
-PKG_MD5SUM:=c90668b12f3676c73913a863482ec405
+PKG_SOURCE_URL:=@SF/musicpd
+PKG_MD5SUM:=354f9a01442fa964cba4928307529563
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -18,7 +18,7 @@ define Package/ncmpc
   CATEGORY:=Multimedia
   TITLE:=ncmpc
   URL:=http://hem.bredband.net/kaw/ncmpc
-  DEPENDS:=+gettext +libiconv
+  DEPENDS:=+libiconv
 endef
 
 define Package/ncmpc/description
@@ -26,7 +26,7 @@ mpd client with ncurses
 endef
 
 TARGET_LDFLAGS+=-L$(STAGING_DIR)/usr/lib/libintl/lib/
-TARGET_LDFLAGS+=-L$(STAGING_DIR)/usr/lib/libiconv/lib/
+TARGET_LDFLAGS+=-L$(STAGING_DIR)/usr/lib/libiconv-full/lib/
 
 define Build/Prepare
 	$(call Build/Prepare/Default)

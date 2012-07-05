@@ -24,6 +24,7 @@ define Package/libartnet
   CATEGORY:=Multimedia
   TITLE:=lib Art-Net
   URL:=http://lynxis.crew.c-base.org/
+  DEPENDS:=+libpthread
 endef
 
 define Package/libartnet/description

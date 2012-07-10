@@ -18,7 +18,7 @@ define Package/ncmpc
   CATEGORY:=Multimedia
   TITLE:=ncmpc
   URL:=http://hem.bredband.net/kaw/ncmpc
-  DEPENDS:=+libiconv +glib2
+  DEPENDS:=+glib2 +libmpdclient +libpthread +libncurses +libiconv-full
 endef
 
 define Package/ncmpc/description

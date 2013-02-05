@@ -16,7 +16,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/meteolinger
   SECTION:=utils
   CATEGORY:=Utilities
-  DEPENDS:=+libusb
+  DEPENDS:=+libusb-compat +libc
   TITLE:=meteolinger wwsr
   URL:=http://meteolinger.lowlevel.cz/
 endef
@@ -33,7 +33,7 @@ endef
 
 define Build/Compile
 	cd $(PKG_BUILD_DIR) ; \
-		$(CC) -o wwsr3.3 wwsr3.3.c -lusb -lm
+		$(TARGET_CC) $(CFLAGS) $(EXTRA_CFLAGS) -o wwsr3.3 wwsr3.3.c -lusb -lm
 endef
 
 define Package/meteolinger/install

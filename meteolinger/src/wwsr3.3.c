@@ -47,6 +47,7 @@
 #include <usb.h>
 #include <time.h>
 #include <math.h>
+#include <endian.h>
 
 #define PACKAGE "wwsr"
 #define DEFAULT_VENDOR    0x1941
@@ -233,6 +234,9 @@ int main(int argc, char **argv)
 		rv=ws_open(&dev,vendor,product);
 		
 		if (rv==0) rv=ws_read(dev,WS_CURRENT_ENTRY,(unsigned char *)&address,sizeof(address));  //read current log address
+        address = le16toh(address);
+        logger(LOG_DEBUG, "ws_open", "Initialise usb");
+        logger(LOG_DEBUG, "main", "LogPointer at %x\n", address);
 
 		newposition=address+(position*0x10);         //alter this address according to user parameter
                 newposition1=address+(position*0x10)-0x20;   //alter -1h address according to user parameter

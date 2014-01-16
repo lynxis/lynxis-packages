@@ -1,0 +1,35 @@
+#!/bin/sh
+# Copyright (C) 2014 Alexander Couzens
+
+lazus_try() {
+    local interface=$1
+    if [ ! -d /sys/class/net/${interface} ] ; then
+        return
+    fi
+
+    ping -6 -c 2 -W 2 -I $interface fe80::2%${interfae}
+
+    if [ $? -ne 0 ] ; then
+        return
+    fi
+
+    wget -T 3 -O /tmp/sysupgrade.gpg http://fe80::2%${interface}/preinit/$(cat /sys/devices/platform/ag71xx.0/net/${interface}/address/)
+    if [ $? -eq 0 ] ; then
+        lazus_do_sysupgrade
+    fi
+}
+
+lazus_do_sysupgrade() {
+    gpg --batch --yes -q --homedir /tmp/ --import /usr/lib/lazus-flasher/image.asc
+    gpg --batch --yes -q --homedir /tmp/ -o /tmp/sysupgrade --verify /tmp/sysupgrade.gpg
+    if [ $? -eq 0 ] ; then
+        sysupgrade -n /tmp/sysupgrade
+    fi
+}
+
+lazus_flasher() {
+    lazus_try eth0
+}
+
+boot_hook_add preinit_main lazus_flasher
+

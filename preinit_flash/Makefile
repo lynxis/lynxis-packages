@@ -11,7 +11,7 @@ PKG_NAME:=lazus-preinit-flasher
 PKG_VERSION:=2014-01-12
 PKG_RELEASE=$(PKG_SOURCE_VERSION)
 
-PKG_MAINTAINER:=Jo-Philipp Wich <jow@openwrt.org>
+PKG_MAINTAINER:=Alexander Couzens <lynxis@fe80.eu>
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -19,7 +19,7 @@ define Package/lazus-preinit-flasher
   SECTION:=utils
   CATEGORY:=Base system
   TITLE:=Lazus Preinit Flasher
-  DEPENDS:=+gnupg
+  DEPENDS:=+gnupg +curl
 endef
 
 define Package/lazus-preinit-flasher/description
@@ -31,7 +31,7 @@ endef
 
 define Package/lazus-preinit-flasher/install
 	$(INSTALL_DIR) $(1)/lib/preinit
-	$(INSTALL_DATA) ./files/hook $(1)/lib/preinit/23_lazus_preinit_flasher
+	$(INSTALL_DATA) ./files/hook $(1)/lib/preinit/08_lazus_preinit_flasher
 	$(INSTALL_DIR) $(1)/usr/lib/lazus-preinit-flasher
 	$(INSTALL_DATA) ./files/image.asc $(1)/usr/lib/lazus-preinit-flasher/image.asc
 endef

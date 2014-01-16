@@ -3,27 +3,30 @@
 
 lazus_try() {
     local interface=$1
+    local address='fe80::08ef:2342'
     if [ ! -d /sys/class/net/${interface} ] ; then
         return
     fi
 
-    ping -6 -c 2 -W 2 -I $interface fe80::2%${interfae}
+    modprobe ipv6
+
+    ping -6 -c 2 -W 2 -I $interface ${address}%${interface}
 
     if [ $? -ne 0 ] ; then
         return
     fi
-
-    wget -T 3 -O /tmp/sysupgrade.gpg http://fe80::2%${interface}/preinit/$(cat /sys/devices/platform/ag71xx.0/net/${interface}/address/)
+    
+    curl -q -k -s -6 --interface "${interface}" -f --connect-timeout 3 --globoff -o /tmp/image.gpg http://[${address}]/sysupgrade/$(cat /sys/class/net/${interface}/address)
     if [ $? -eq 0 ] ; then
         lazus_do_sysupgrade
     fi
 }
 
 lazus_do_sysupgrade() {
-    gpg --batch --yes -q --homedir /tmp/ --import /usr/lib/lazus-flasher/image.asc
-    gpg --batch --yes -q --homedir /tmp/ -o /tmp/sysupgrade --verify /tmp/sysupgrade.gpg
+    gpg --batch -q --homedir /tmp/ --import /usr/lib/lazus-flasher/image.asc
+    gpg --batch -q --homedir /tmp/ -o /tmp/image.bin --verify /tmp/image.gpg
     if [ $? -eq 0 ] ; then
-        sysupgrade -n /tmp/sysupgrade
+        sysupgrade -n /tmp/image.bin
     fi
 }
 

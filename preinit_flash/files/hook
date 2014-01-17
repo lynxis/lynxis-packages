@@ -24,7 +24,7 @@ lazus_try() {
 }
 
 lazus_do_sysupgrade() {
-    gpg --batch -q --homedir /tmp/ --import /usr/lib/lazus-flasher/image.asc
+    gpg --batch -q --homedir /tmp/ --import /usr/lib/lazus-preinit-flasher/image.asc
     gpg --batch -q --homedir /tmp/ -o /tmp/image.bin --verify /tmp/image.gpg
     if [ $? -eq 0 ] ; then
         sysupgrade -n /tmp/image.bin

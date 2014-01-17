@@ -19,7 +19,7 @@ define Package/lazus-preinit-flasher
   SECTION:=utils
   CATEGORY:=Base system
   TITLE:=Lazus Preinit Flasher
-  DEPENDS:=+gnupg +curl
+  DEPENDS:=+gnupg +wget
 endef
 
 define Package/lazus-preinit-flasher/description

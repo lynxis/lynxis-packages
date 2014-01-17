@@ -17,7 +17,7 @@ lazus_try() {
         return
     fi
     
-    wget -T 3 -O /tmp/image.gpg http://${address}%${interface}/preinit/$(cat /sys/class/net/${interface}/address)
+    wget -T 3 -O /tmp/image.gpg http://[${address}%${interface}]/preinit/$(cat /sys/class/net/${interface}/address)
     if [ $? -eq 0 ] ; then
         lazus_do_sysupgrade
     fi

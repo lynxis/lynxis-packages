@@ -1,9 +1,11 @@
 #!/bin/sh
 # Copyright (C) 2014 Alexander Couzens
 
+. /usr/lib/lazus-preinit-flasher/lib
+
 lazus_try() {
-    local interface=$1
-    local address='fe80::08ef:2342'
+    local address="$1"
+    local interface="$2"
     if [ ! -d /sys/class/net/${interface} ] ; then
         return
     fi
@@ -11,31 +13,25 @@ lazus_try() {
     modprobe ipv6
     sleep 3
 
-    ping -6 -c 2 -W 2 -I $interface ${address}%${interface}
+		if [ "${address%%:*}" == "fe80" ] ; then
+			address="${address}%${interface}"
+		fi
 
+    ping -6 -c 2 -W 2 -I $interface ${address}
     if [ $? -ne 0 ] ; then
         return
     fi
     
-    wget -T 3 -O /tmp/image.gpg http://[${address}%${interface}]/preinit/$(cat /sys/class/net/${interface}/address)
+    wget -T 3 -O /tmp/image.gpg http://[${address}]/preinit/$(cat /sys/class/net/${interface}/address)
     if [ $? -eq 0 ] ; then
-        lazus_do_sysupgrade
-    fi
-}
-
-lazus_do_sysupgrade() {
-    gpg --ignore-time-conflict --batch -q --homedir /tmp/ --import /usr/lib/lazus-preinit-flasher/image.asc
-    gpg --ignore-time-conflict --batch -q --homedir /tmp/ --verify /tmp/image.gpg
-    if [ $? -eq 0 ] ; then
-        gpg --ignore-time-conflict --batch -q --homedir /tmp/ -o /tmp/image.bin -d /tmp/image.gpg
-        sysupgrade -n /tmp/image.bin
+        lazus_do_sysupgrade /tmp/image.gpg no
     fi
 }
 
 lazus_flasher() {
     for iface in $(ls /sys/class/net/) ; do
         [ "$iface" == "lo" ] && continue
-        lazus_try $iface
+        lazus_try fe80::08ef:2342 $iface
     done
 }
 

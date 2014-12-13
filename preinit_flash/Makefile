@@ -34,6 +34,7 @@ define Package/lazus-preinit-flasher/install
 	$(INSTALL_DATA) ./files/hook $(1)/lib/preinit/45_lazus_preinit_flasher
 	$(INSTALL_DIR) $(1)/usr/lib/lazus-preinit-flasher
 	$(INSTALL_DATA) ./files/image.asc $(1)/usr/lib/lazus-preinit-flasher/image.asc
+	$(INSTALL_DATA) ./files/lib $(1)/usr/lib/lazus-preinit-flasher/lib
 endef
 
 $(eval $(call BuildPackage,lazus-preinit-flasher))

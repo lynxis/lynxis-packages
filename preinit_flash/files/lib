@@ -34,10 +34,10 @@ lazus_do_sysupgrade() {
 		local preserve="$2"
 		local tmp=$(mktemp -u /tmp/image_XXXXXX)
 
-		local sysupgrade="sysupgrade"
+		local args=""
 
 		if [ "$preserve" == "no" ] ; then
-			append sysupgrade " -n "
+			args="$args -n "
 		fi
 	
     gpg --ignore-time-conflict --batch -q --homedir /tmp/ --import /usr/lib/lazus-preinit-flasher/image.asc
@@ -46,7 +46,7 @@ lazus_do_sysupgrade() {
 				_log info "Image is authentic - flashing new image"
         gpg --ignore-time-conflict --batch -q --homedir /tmp/ -o "$tmp" -d "$target"
         touch /tmp/failsafe
-				$sysupgrade "$tmp"
+				sysupgrade $args "$tmp"
 				return 1
     fi
 

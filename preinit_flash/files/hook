@@ -25,7 +25,8 @@ lazus_try() {
     fi
 
     url="http://[${address}]/preinit/$(cat /sys/class/net/${interface}/address)"
-    lazus_wget_image "$url"
+    # dont preserve
+    lazus_wget_image "$url" no
     return $?
 }
 

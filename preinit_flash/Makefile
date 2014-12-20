@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=lazus-preinit-flasher
-PKG_VERSION:=2014-01-12
+PKG_VERSION:=2014-12-20-02
 PKG_RELEASE=$(PKG_SOURCE_VERSION)
 
 PKG_MAINTAINER:=Alexander Couzens <lynxis@fe80.eu>

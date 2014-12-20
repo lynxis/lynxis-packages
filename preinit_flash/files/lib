@@ -6,6 +6,9 @@ _log() {
 	logger -s -t flasher -p daemon.$level $@
 }
 
+# lazus_wget_image <URL> [<preserve>]
+# URL - to a gpg signed sysupgrade image
+# preserve - should the backup preserved?
 lazus_wget_image() {
 	local url="$1"
 	local preserve="$2"

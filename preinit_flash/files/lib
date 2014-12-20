@@ -18,7 +18,7 @@ lazus_wget_image() {
 
 	wget -T 3 -O "$tmp" "$url" 2>/dev/null
 	if [ $? -eq 0 ] ; then
-		_log "Downloaded Image from $url"
+		_log info "Downloaded Image from $url"
 		ret=$(lazus_do_sysupgrade "$tmp" "$preserve")
 	fi
 
@@ -32,7 +32,7 @@ lazus_wget_image() {
 lazus_do_sysupgrade() {
 		local target="$1"
 		local preserve="$2"
-		local tmp=$(mktemp /tmp/image_XXXXXX)
+		local tmp=$(mktemp -u /tmp/image_XXXXXX)
 
 		local sysupgrade="sysupgrade"
 
@@ -43,7 +43,7 @@ lazus_do_sysupgrade() {
     gpg --ignore-time-conflict --batch -q --homedir /tmp/ --import /usr/lib/lazus-preinit-flasher/image.asc
     gpg --ignore-time-conflict --batch -q --homedir /tmp/ --verify "$target"
     if [ $? -eq 0 ] ; then
-				_log "Image is authentic - flashing new image"
+				_log info "Image is authentic - flashing new image"
         gpg --ignore-time-conflict --batch -q --homedir /tmp/ -o "$tmp" -d "$target"
         touch /tmp/failsafe
 				$sysupgrade "$tmp"

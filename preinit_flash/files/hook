@@ -2,10 +2,12 @@
 # Copyright (C) 2014 Alexander Couzens
 
 . /usr/lib/lazus-preinit-flasher/lib
+. /etc/openwrt_release
 
 lazus_try() {
     local address="$1"
     local interface="$2"
+    local url
     if [ ! -d /sys/class/net/${interface} ] ; then
         return
     fi
@@ -13,19 +15,18 @@ lazus_try() {
     modprobe ipv6
     sleep 3
 
-		if [ "${address%%:*}" == "fe80" ] ; then
-			address="${address}%${interface}"
-		fi
+    if [ "${address%%:*}" == "fe80" ] ; then
+      address="${address}%${interface}"
+    fi
 
     ping -6 -c 2 -W 2 -I $interface ${address}
     if [ $? -ne 0 ] ; then
-        return
+        return 1
     fi
-    
-    wget -T 3 -O /tmp/image.gpg http://[${address}]/preinit/$(cat /sys/class/net/${interface}/address)
-    if [ $? -eq 0 ] ; then
-        lazus_do_sysupgrade /tmp/image.gpg no
-    fi
+
+    url="http://[${address}]/preinit/$(cat /sys/class/net/${interface}/address)"
+    lazus_wget_image "$url"
+    return $?
 }
 
 lazus_flasher() {

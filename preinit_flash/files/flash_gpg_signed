@@ -1,0 +1,12 @@
+#!/bin/sh
+
+. /usr/lib/preinit-flasher/lib
+
+if [ "$1" == "-h" -or $# -eq 0 ] ; then
+  echo "$0 <URL>"
+  echo ""
+  echo "Download, verify and flash a image"
+  echo "Verified by a gpg signature"
+fi
+
+lazus_wget_image $@

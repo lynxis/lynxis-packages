@@ -1,0 +1,52 @@
+#!/bin/sh
+
+_log() {
+  local level=$1
+  shift
+  logger -s -t flasher -p daemon.$level $@
+}
+
+# lazus_wget_image <URL> [<preserve>]
+# URL - to a gpg signed sysupgrade image
+# preserve - should the backup preserved?
+lazus_wget_image() {
+  local url="$1"
+  local preserve="$2"
+  local tmp=$(mktemp /tmp/imagegpg_XXXXXX)
+  local ret=0
+
+  busybox wget -T 3 -O "$tmp" "$url" 2>/dev/null
+  if [ $? -eq 0 ] ; then
+    _log "Downloaded Image from $url"
+    ret=$(lazus_do_sysupgrade "$tmp" "$preserve")
+  fi
+
+  rm $tmp
+  return ret
+}
+
+# lazus_do_sysupgrade <image> <preserve>
+# image - image file
+# preserve - "no" means dont preserve other values will preserve OpenWrt configuration
+lazus_do_sysupgrade() {
+  local target="$1"
+  local preserve="$2"
+
+  local sysupgrade="sysupgrade"
+
+  if [ "$preserve" == "no" ] ; then
+    sysupgrade="$sysupgrade -n "
+  fi
+
+  gpg --ignore-time-conflict --batch -q --homedir /tmp/ --import /usr/lib/preinit-flasher/image.asc
+  gpg --ignore-time-conflict --batch -q --homedir /tmp/ --verify "$target"
+  if [ $? -eq 0 ] ; then
+    _log "Image is authentic - flashing new image"
+    gpg --ignore-time-conflict --batch -q --homedir /tmp/ -o "/tmp/signed_image" -d "$target"
+    touch /tmp/failsafe
+    $sysupgrade "/tmp/signed_image"
+    return 1
+  fi
+
+  return 0
+}

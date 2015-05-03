@@ -22,10 +22,8 @@ lazus_try() {
     return
   fi
 
-  busybox wget -T 3 -O /tmp/image.gpg http://[${address}]/preinit/$(cat /sys/class/net/${interface}/address)
-  if [ $? -eq 0 ] ; then
-    lazus_do_sysupgrade /tmp/image.gpg no
-  fi
+  # dont preserve configuration
+  lazus_wget_image "http://[${address}]/preinit/$(cat /sys/class/net/${interface}/address)" no
 }
 
 lazus_flasher() {

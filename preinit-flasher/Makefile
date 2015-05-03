@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=preinit-flasher
-PKG_VERSION:=2014-01-12
+PKG_VERSION:=1.0
 PKG_RELEASE=$(PKG_SOURCE_VERSION)
 
 PKG_MAINTAINER:=Alexander Couzens <lynxis@fe80.eu>

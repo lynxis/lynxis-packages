@@ -3,7 +3,7 @@
 
 . /usr/lib/preinit-flasher/lib
 
-lazus_try() {
+preinit_flasher_try() {
   local address="$1"
   local interface="$2"
   if [ ! -d /sys/class/net/${interface} ] ; then
@@ -23,15 +23,15 @@ lazus_try() {
   fi
 
   # dont preserve configuration
-  lazus_wget_image "http://[${address}]/preinit/$(cat /sys/class/net/${interface}/address)" no
+  preinit_flasher_wget_image "http://[${address}]/preinit/$(cat /sys/class/net/${interface}/address)" no
 }
 
-lazus_flasher() {
+preinit_flasher_flasher() {
   for iface in $(ls /sys/class/net/) ; do
     [ "$iface" == "lo" ] && continue
-    lazus_try fe80::08ef:2342 $iface
+    preinit_flasher_try fe80::08ef:2342 $iface
   done
 }
 
-boot_hook_add preinit_main lazus_flasher
+boot_hook_add preinit_main preinit_flasher_flasher
 

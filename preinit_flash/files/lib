@@ -6,10 +6,10 @@ _log() {
   logger -s -t flasher -p daemon.$level $@
 }
 
-# lazus_wget_image <URL> [<preserve>]
+# preinit_flasher_wget_image <URL> [<preserve>]
 # URL - to a gpg signed sysupgrade image
 # preserve - should the backup preserved?
-lazus_wget_image() {
+preinit_flasher_wget_image() {
   local url="$1"
   local preserve="$2"
   local tmp=$(mktemp /tmp/imagegpg_XXXXXX)
@@ -24,17 +24,17 @@ lazus_wget_image() {
   busybox wget -T 3 -O "$tmp" "$url" 2>/dev/null
   if [ $? -eq 0 ] ; then
     _log info "Downloaded Image from $url"
-    ret=$(lazus_do_sysupgrade "$tmp" "$preserve")
+    ret=$(preinit_flasher_do_sysupgrade "$tmp" "$preserve")
   fi
 
   rm $tmp
   return $ret
 }
 
-# lazus_do_sysupgrade <image> <preserve>
+# preinit_flasher_do_sysupgrade <image> <preserve>
 # image - image file
 # preserve - "no" means dont preserve other values will preserve OpenWrt configuration
-lazus_do_sysupgrade() {
+preinit_flasher_do_sysupgrade() {
   local target="$1"
   local preserve="$2"
 

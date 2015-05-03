@@ -9,4 +9,4 @@ if [ "$1" == "-h" -o $# -eq 0 ] ; then
   echo "Verified by a gpg signature"
 fi
 
-lazus_wget_image $@
+preinit_flasher_wget_image $@

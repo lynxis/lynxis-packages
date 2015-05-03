@@ -22,7 +22,7 @@ lazus_wget_image() {
   fi
 
   rm $tmp
-  return ret
+  return $ret
 }
 
 # lazus_do_sysupgrade <image> <preserve>

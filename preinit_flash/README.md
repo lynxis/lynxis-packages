@@ -11,7 +11,7 @@ the overlay isn't avaiable in preinit stage.
 
 ## How it works
 The preinit-flasher try to download an image from
-`http://fe80::08ef:2342/preinit/<mac>?board_name=nanostation-m-xw&release=$DISTRIB_RELEASE`
+`http://fe80::08ef:2342/preinit/<mac>?board_name=nanostation-m-xw&release=${DISTRIB_RELEASE}&codename=${DISTRIB_CODENAME}&target=${DISTRIB_TARGET}`
 verify against the embedded gpg key and if succeed flash it without(!) the previous configuration.
 
 *NOTE* there is also a userspace tool `flash_gpg_signed <url> <preserve?>`.

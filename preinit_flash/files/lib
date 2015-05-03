@@ -16,6 +16,8 @@ lazus_wget_image() {
   local ret=0
   local board_name=$(cat /tmp/sysinfo/board_name)
   local query="?board_name=${board_name}"
+  . /etc/openwrt_release
+  query="${query}&release=${DISTRIB_RELEASE}&codename=${DISTRIB_CODENAME}&target=${DISTRIB_TARGET}"
 
   url="${url}${query}"
 

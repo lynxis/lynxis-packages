@@ -14,7 +14,7 @@ lazus_wget_image() {
   local preserve="$2"
   local tmp=$(mktemp /tmp/imagegpg_XXXXXX)
   local ret=0
-  local board_name=$(/tmp/sysinfo/board_name)
+  local board_name=$(cat /tmp/sysinfo/board_name)
   local query="?board_name=$(board_name)"
 
   url="${url}${query}"
